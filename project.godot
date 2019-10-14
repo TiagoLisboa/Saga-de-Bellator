@@ -19,10 +19,6 @@ config/name="Saga de Bellator"
 run/main_scene="res://World.tscn"
 config/icon="res://icon.png"
 
-[editor_plugins]
-
-enabled=PoolStringArray( "ch.fischspiele.tilesethelper" )
-
 [physics]
 
 2d/default_gravity=0

@@ -2,12 +2,19 @@ extends Node2D
 
 var Room = preload("res://Room.tscn")
 
-var tile_size = 32
+var tile_size = 64
 var num_rooms = 50
 var min_size = 4
 var max_size = 10
 var hspread = 400
 var cull = .5
+
+var Player = preload("res://Player.tscn")
+
+var player = null
+var start_room = null
+var end_room = null
+
 
 onready var Map = $TileMap
 
@@ -62,6 +69,12 @@ func _input(event):
 		make_rooms()
 	if event.is_action_pressed("ui_focus_next"):
 		make_map()
+	if event.is_action_pressed('ui_cancel'):
+		for r in $Rooms.get_children():
+			r.get_node("CollisionShape2D").shape = null
+		player = Player.instance()
+		add_child(player)
+		player.position = start_room.position
 
 func find_mst(nodes):
 	# Prim's algorithm
@@ -91,6 +104,8 @@ func find_mst(nodes):
 func make_map():
 	# create a tilemap from the generated rooms and path
 	Map.clear()
+	find_start_room()
+	find_end_room()
 	
 	# Fill tlemap with walls then carve empty rooms
 	var full_rect = Rect2()
@@ -216,3 +231,17 @@ func carve_path(pos1, pos2):
 			Map.set_cell(y_x.x, lsty + 1, 38) # replace with _|
 		elif Map.get_cell(y_x.x + 1, lsty + 1) in [24] and not  Map.get_cell(y_x.x - 1, lsty + 1) in [24]:
 			Map.set_cell(y_x.x, lsty + 1, 33) # replace with |_
+
+func find_start_room():
+	var min_x = INF
+	for room in $Rooms.get_children():
+		if room.position.x < min_x:
+			start_room = room
+			min_x = room.position.x
+
+func find_end_room():
+	var max_x = -INF
+	for room in $Rooms.get_children():
+		if room.position.x > max_x:
+			end_room = room
+			max_x = room.position.x
