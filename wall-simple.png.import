@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/room-tileset.png-a81924ccb8d07514a2f140bdef17166b.stex"
+path="res://.import/wall-simple.png-1e941d8b92d51ee29b6943824a373558.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://room-tileset.png"
-dest_files=[ "res://.import/room-tileset.png-a81924ccb8d07514a2f140bdef17166b.stex" ]
+source_file="res://wall-simple.png"
+dest_files=[ "res://.import/wall-simple.png-1e941d8b92d51ee29b6943824a373558.stex" ]
 
 [params]
 

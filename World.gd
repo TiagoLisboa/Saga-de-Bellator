@@ -2,7 +2,7 @@ extends Node2D
 
 var Room = preload("res://Room.tscn")
 
-var tile_size = 64
+var tile_size = 320
 var num_rooms = 50
 var min_size = 4
 var max_size = 10
@@ -117,7 +117,7 @@ func make_map():
 	var bottomright = Map.world_to_map(full_rect.end)
 	for x in range(topleft.x, bottomright.x):
 		for y in range(topleft.y, bottomright.y):
-			Map.set_cell(x, y, 0)
+			Map.set_cell(x, y, 1)
 	
 	# Crave rooms
 	for room in $Rooms.get_children():
@@ -126,7 +126,8 @@ func make_map():
 		var ul = (room.position / tile_size).floor() - s
 		for x in range(2, s.x * 2 - 1):
 			for y in range(2, s.y * 2 - 1):
-				Map.set_cell(ul.x + x, ul.y + y, 18)
+				Map.set_cell(ul.x + x, ul.y + y, 0)
+				"""
 				if y == 2: # top of the room
 					Map.set_cell(ul.x + x, ul.y + y, 2)
 					if x == 2: # left corner
@@ -145,6 +146,7 @@ func make_map():
 				if x == s.x*2-2:
 					if y > 2 && y < s.y*2-2:
 						Map.set_cell(ul.x + x, ul.y + y, 14)
+				"""
 	
 	# crave corridors
 	var corridors = []
@@ -175,6 +177,8 @@ func carve_path(pos1, pos2):
 		x_y = pos2
 		y_x = pos1
 	for x in range(pos1.x, pos2.x + x_diff, x_diff):
+		Map.set_cell(x, x_y.y, 0) # corredor
+		"""
 		if Map.get_cell(x, x_y.y) in [0, 1, 6]:
 			Map.set_cell(x, x_y.y, 24) # corredor
 			# if cell to the left is
@@ -203,11 +207,14 @@ func carve_path(pos1, pos2):
 			Map.set_cell(x, x_y.y - 1, 2) # parede
 		elif Map.get_cell(x, x_y.y - 1) in [24, 34, 33, 38]:
 			Map.set_cell(x, x_y.y - 1, 10) # chão
+		"""
 			
 	
 	# corredores verticais
 	var lsty
 	for y in range(pos1.y, pos2.y + y_diff, y_diff):
+		Map.set_cell(y_x.x, y, 0)
+		"""
 		lsty = y
 		if Map.get_cell(y_x.x, y) in [0, 1, 2, 6]:
 			Map.set_cell(y_x.x, y, 4)
@@ -231,6 +238,7 @@ func carve_path(pos1, pos2):
 			Map.set_cell(y_x.x, lsty + 1, 38) # replace with _|
 		elif Map.get_cell(y_x.x + 1, lsty + 1) in [24] and not  Map.get_cell(y_x.x - 1, lsty + 1) in [24]:
 			Map.set_cell(y_x.x, lsty + 1, 33) # replace with |_
+	"""
 
 func find_start_room():
 	var min_x = INF
