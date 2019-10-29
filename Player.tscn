@@ -1,9 +1,25 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://Player.gd" type="Script" id=1]
-[ext_resource path="res://anao-man.png" type="Texture" id=2]
+[ext_resource path="res://anao-man1.png" type="Texture" id=2]
+[ext_resource path="res://anao-man2.png" type="Texture" id=3]
+[ext_resource path="res://anao-man-move1.png" type="Texture" id=4]
+[ext_resource path="res://anao-man-move2.png" type="Texture" id=5]
 
 [sub_resource type="RectangleShape2D" id=1]
+
+[sub_resource type="SpriteFrames" id=2]
+animations = [ {
+"frames": [ ExtResource( 2 ), ExtResource( 3 ) ],
+"loop": true,
+"name": "idle",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 4 ), ExtResource( 5 ) ],
+"loop": true,
+"name": "move",
+"speed": 10.0
+} ]
 
 [node name="Node" type="KinematicBody2D"]
 script = ExtResource( 1 )
@@ -12,9 +28,11 @@ script = ExtResource( 1 )
 position = Vector2( -1.52173, -0.608688 )
 shape = SubResource( 1 )
 
-[node name="Sprite" type="Sprite" parent="."]
-texture = ExtResource( 2 )
-
 [node name="Camera2D" type="Camera2D" parent="."]
 current = true
 zoom = Vector2( 0.3, 0.3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+frames = SubResource( 2 )
+animation = "idle"
+playing = true

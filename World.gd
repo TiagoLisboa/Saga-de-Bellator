@@ -93,7 +93,7 @@ func check_doors(x, y):
 		if Map.get_cell(x, y) == 0 and visited.get_cell(x, y) == -1:
 			visited.set_cell(x, y, 1)
 			if Map.get_cell(x + 1, y) == 1 and Map.get_cell(x - 1, y) == 1 or Map.get_cell(x, y + 1) == 1 and Map.get_cell(x, y - 1) == 1:
-				Map.set_cell(x, y, -1)
+				Map.set_cell(x, y, 2)
 			else:
 				var adjx = [1,-1, 0, 0]
 				var adjy = [0, 0, 1,-1]
