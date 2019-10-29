@@ -23,7 +23,15 @@ onready var Map = $TileMap
 var path # AStar pathfinding obj
 func _ready():
 	randomize()
-	make_rooms()
+	yield(make_rooms(), 'completed')
+	make_map()
+	place_things()
+	
+	for r in $Rooms.get_children():
+		r.get_node("CollisionShape2D").shape = null
+	player = Player.instance()
+	add_child(player)
+	player.position = start_room.position
 	
 func make_rooms():
 	for i in range(num_rooms):
@@ -34,7 +42,7 @@ func make_rooms():
 		r.make_room(pos, Vector2(w, h) * tile_size)
 		$Rooms.add_child(r)	
 	# wait for movement to stop
-	yield(get_tree().create_timer(1.1), 'timeout')
+	yield(get_tree().create_timer(.5), 'timeout')
 	# cull rooms
 	var room_positions = []
 	for room in $Rooms.get_children():
@@ -64,20 +72,24 @@ func _process(delta):
 	update()
 	
 func _input(event):
+	"""
 	if event.is_action_pressed('ui_select'):
 		for n in $Rooms.get_children():
 			n.queue_free()
 		path = null
 		make_rooms()
+	
 	if event.is_action_pressed("ui_focus_next"):
 		make_map()
 		place_things()
+	
 	if event.is_action_pressed('ui_cancel'):
 		for r in $Rooms.get_children():
 			r.get_node("CollisionShape2D").shape = null
 		player = Player.instance()
 		add_child(player)
 		player.position = start_room.position
+	"""
 
 func place_things():
 	for room in $Rooms.get_children():
