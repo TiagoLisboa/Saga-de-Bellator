@@ -15,5 +15,6 @@ zoom = Vector2( 10, 10 )
 
 [node name="TileMap" type="TileMap" parent="."]
 tile_set = ExtResource( 2 )
-cell_size = Vector2( 320, 320 )
+cell_size = Vector2( 32, 32 )
 format = 1
+tile_data = PoolIntArray( 65544, 0, 0 )

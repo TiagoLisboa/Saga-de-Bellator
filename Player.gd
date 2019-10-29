@@ -1,7 +1,7 @@
 extends KinematicBody2D
 
-var MAX_SPEED = 5000
-var ACCELERATION = 20000
+var MAX_SPEED = 500
+var ACCELERATION = 2000
 var motion = Vector2.ZERO
 
 func _physics_process(delta):

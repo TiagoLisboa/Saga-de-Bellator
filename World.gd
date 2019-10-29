@@ -2,9 +2,9 @@ extends Node2D
 
 var Room = preload("res://Room.tscn")
 
-var tile_size = 320
+var tile_size = 32
 var num_rooms = 50
-var min_size = 4
+var min_size = 5
 var max_size = 10
 var hspread = 400
 var cull = .5
@@ -15,8 +15,10 @@ var player = null
 var start_room = null
 var end_room = null
 
+var visited = TileMap.new()
 
 onready var Map = $TileMap
+
 
 var path # AStar pathfinding obj
 func _ready():
@@ -69,12 +71,39 @@ func _input(event):
 		make_rooms()
 	if event.is_action_pressed("ui_focus_next"):
 		make_map()
+		place_things()
 	if event.is_action_pressed('ui_cancel'):
 		for r in $Rooms.get_children():
 			r.get_node("CollisionShape2D").shape = null
 		player = Player.instance()
 		add_child(player)
 		player.position = start_room.position
+
+func place_things():
+	for room in $Rooms.get_children():
+		var pos = Map.world_to_map(room.position)
+		check_doors(pos.x, pos.y)
+
+func check_doors(x, y):
+	var xs = [x]
+	var ys = [y]
+	while xs:
+		x = xs.pop_front()
+		y = ys.pop_front()
+		if Map.get_cell(x, y) == 0 and visited.get_cell(x, y) == -1:
+			visited.set_cell(x, y, 1)
+			if Map.get_cell(x + 1, y) == 1 and Map.get_cell(x - 1, y) == 1 or Map.get_cell(x, y + 1) == 1 and Map.get_cell(x, y - 1) == 1:
+				Map.set_cell(x, y, -1)
+			else:
+				var adjx = [1,-1, 0, 0]
+				var adjy = [0, 0, 1,-1]
+				for i in range(4):
+					xs.append(x + adjx[i])
+					ys.append(y + adjy[i])
+
+
+
+
 
 func find_mst(nodes):
 	# Prim's algorithm
@@ -118,6 +147,7 @@ func make_map():
 	for x in range(topleft.x, bottomright.x):
 		for y in range(topleft.y, bottomright.y):
 			Map.set_cell(x, y, 1)
+			visited.set_cell(x, y, -1)
 	
 	# Crave rooms
 	for room in $Rooms.get_children():
