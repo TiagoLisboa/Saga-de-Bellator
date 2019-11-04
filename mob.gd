@@ -1,16 +1,16 @@
-extends Node2D
+extends KinematicBody2D
 
 var MAX_SPEED = 500
 var ACCELERATION = 2000
 var motion = Vector2.ZERO
-var speed = 200.0
+var speed = 500.0
+var axis = Vector2.ZERO
 
 var nav = null
 var path = PoolVector2Array()
 var goal = Vector2()
 
 var active = false
-
 # Declare member variables here. Examples:
 # var a = 2
 # var b = "text"
@@ -22,20 +22,35 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	var move_distance = speed * delta
-	_move_along_path(move_distance)
+	_move_along_path(move_distance, delta)
 	#position=position+Vector2(5,0)
+	motion = move_and_slide(motion)
 
-func _move_along_path(distance):
+func _move_along_path(distance, delta):
 	var starting_point = position
-	for i in range(path.size()):
+	while path.size() > 0:
 		var distance_to_next = starting_point.distance_to(path[0])
-		if distance <= distance_to_next and distance >= 0:
-			position = starting_point.linear_interpolate(path[0], distance / distance_to_next)
-			break
+		if distance <= distance_to_next:
+			var old_pos = position
+			var direction = path[0] - old_pos
+			axis = direction.normalized()
+			if axis == Vector2.ZERO:
+				apply_friction(ACCELERATION * delta)
+			else:
+				apply_movement(axis * ACCELERATION * delta)
+			return
+			"""
 		elif distance < 0:
-			position = path[0]
+			axis = path[0]
+			axis = axis.normalized()
+			if axis == Vector2.ZERO:
+				apply_friction(ACCELERATION * delta)
+			else:
+				apply_movement(axis * ACCELERATION * delta)
+			motion = move_and_slide(motion)
 			set_process(false)
 			break
+			"""
 		distance -= distance_to_next
 		starting_point = path[0]
 		path.remove(0)
@@ -58,4 +73,12 @@ func update_path(new_goal):
 		return
 	set_process(true)
 
+func apply_friction(amount):
+	if motion.length() > amount:
+		motion -= motion.normalized() * amount
+	else:
+		motion = Vector2.ZERO
 
+func apply_movement(acceleration):
+	motion += acceleration
+	motion = motion.clamped(MAX_SPEED)
