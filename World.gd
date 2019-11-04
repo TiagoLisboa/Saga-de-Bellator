@@ -15,9 +15,15 @@ var player = null
 var start_room = null
 var end_room = null
 
+var mob = preload("res://mob.tscn")
+
+var min_mobs = 3
+var max_mobs = 7
+onready var nav = $Navigation2D
+
 var visited = TileMap.new()
 
-onready var Map = $TileMap
+onready var Map = $Navigation2D/TileMap
 
 
 var path # AStar pathfinding obj
@@ -28,10 +34,12 @@ func _ready():
 	place_things()
 	
 	for r in $Rooms.get_children():
-		r.get_node("CollisionShape2D").shape = null
+		r.get_node("CollisionShape2D").disabled = true
 	player = Player.instance()
 	add_child(player)
 	player.position = start_room.position
+	for r in $Rooms.get_children():
+		player.add_connection(r)
 	
 func make_rooms():
 	for i in range(num_rooms):
@@ -93,19 +101,33 @@ func _input(event):
 
 func place_things():
 	for room in $Rooms.get_children():
-		var pos = Map.world_to_map(room.position)
-		check_doors(pos.x, pos.y)
-
-func check_doors(x, y):
-	var xs = [x]
-	var ys = [y]
+		place_doors(room)
+		place_mobs(room)
+		
+func place_mobs(room):
+	var qtd_mobs = min_mobs + randi() % (max_mobs - min_mobs)
+	for i in range(qtd_mobs):
+		var m = mob.instance()
+		var s = (room.size).floor()
+		var p = (room.position).floor() - s
+		var x = rand_range(p.x + 3*tile_size, s.x*2 + p.x - tile_size*3)
+		var y = rand_range(p.y + 3*tile_size, s.y*2 + p.y - tile_size*2)
+		m.make_mob(Vector2(x, y), nav)
+		room.add_mob(m)
+	
+	
+func place_doors(room):
+	var pos = Map.world_to_map(room.position)
+	var xs = [pos.x]
+	var ys = [pos.y]
 	while xs:
-		x = xs.pop_front()
-		y = ys.pop_front()
+		var x = xs.pop_front()
+		var y = ys.pop_front()
 		if Map.get_cell(x, y) == 0 and visited.get_cell(x, y) == -1:
 			visited.set_cell(x, y, 1)
 			if Map.get_cell(x + 1, y) == 1 and Map.get_cell(x - 1, y) == 1 or Map.get_cell(x, y + 1) == 1 and Map.get_cell(x, y - 1) == 1:
-				Map.set_cell(x, y, 2)
+				Map.set_cell(x, y, 3)
+				room.add_door(x, y)
 			else:
 				var adjx = [1,-1, 0, 0]
 				var adjy = [0, 0, 1,-1]

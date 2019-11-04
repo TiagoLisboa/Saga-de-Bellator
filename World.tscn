@@ -13,7 +13,9 @@ rotation = 3.05376
 current = true
 zoom = Vector2( 10, 10 )
 
-[node name="TileMap" type="TileMap" parent="."]
+[node name="Navigation2D" type="Navigation2D" parent="."]
+
+[node name="TileMap" type="TileMap" parent="Navigation2D"]
 tile_set = ExtResource( 2 )
 cell_size = Vector2( 32, 32 )
 format = 1

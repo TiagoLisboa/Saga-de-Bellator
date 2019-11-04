@@ -1,10 +1,17 @@
 extends KinematicBody2D
 
+signal player_update
+
 var MAX_SPEED = 500
 var ACCELERATION = 2000
 var motion = Vector2.ZERO
+var de = 0
 
 func _physics_process(delta):
+	de += delta
+	if de > .3:
+		emit_signal("player_update", self.position)
+		de = 0
 	var axis = get_input_axis()
 	if axis == Vector2.ZERO:
 		apply_friction(ACCELERATION * delta)
@@ -36,4 +43,7 @@ func apply_friction(amount):
 func apply_movement(acceleration):
 	motion += acceleration
 	motion = motion.clamped(MAX_SPEED)
+
+func add_connection(e):
+	connect("player_update", e, "_on_player_update")
 	
