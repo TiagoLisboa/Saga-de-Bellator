@@ -7,6 +7,8 @@ var ACCELERATION = 2000
 var motion = Vector2.ZERO
 var de = 0
 
+var blast = preload("res://PowerBlast.tscn")
+
 func _physics_process(delta):
 	de += delta
 	if de > .3:
@@ -21,8 +23,8 @@ func _physics_process(delta):
 	
 func get_input_axis():
 	var axis = Vector2.ZERO
-	axis.x = int(Input.is_action_pressed("ui_right")) - int(Input.is_action_pressed("ui_left"))
-	axis.y = int(Input.is_action_pressed("ui_down")) - int(Input.is_action_pressed("ui_up"))
+	axis.x = int(Input.is_action_pressed("right")) - int(Input.is_action_pressed("left"))
+	axis.y = int(Input.is_action_pressed("down")) - int(Input.is_action_pressed("up"))
 	if axis != Vector2.ZERO:
 		$AnimatedSprite.play("move")
 	else:
@@ -33,6 +35,15 @@ func get_input_axis():
 		$AnimatedSprite.flip_h = false
 	return axis.normalized()
 	
+func _input(event):
+	if Input.is_action_just_pressed("mouse_click"):
+		lancar_poder()
+
+func lancar_poder():
+	var new_blast = blast.instance()
+	new_blast.initialize((get_global_mouse_position() - global_position).normalized())
+	new_blast.position = position
+	add_child(new_blast)
 
 func apply_friction(amount):
 	if motion.length() > amount:

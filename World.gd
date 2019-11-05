@@ -10,6 +10,7 @@ var hspread = 400
 var cull = .5
 
 var Player = preload("res://Player.tscn")
+var blast = preload("res://PowerBlast.tscn")
 
 var player = null
 var start_room = null

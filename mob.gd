@@ -1,5 +1,7 @@
 extends KinematicBody2D
 
+class_name Mob
+
 var MAX_SPEED = 50
 var ACCELERATION = 2000
 var motion = Vector2.ZERO
@@ -88,3 +90,7 @@ func apply_friction(amount):
 func apply_movement(acceleration):
 	motion += acceleration
 	motion = motion.clamped(MAX_SPEED)
+
+func destroy():
+	print("des")
+	queue_free()
