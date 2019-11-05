@@ -25,6 +25,8 @@ func _on_player_update(pos):
 	if (pos >= start and pos <= end):
 		for m in $Mobs.get_children():
 			m.update_path(pos)
-			
+	else:
+		for m in $Mobs.get_children():
+			m.stop_following()
 			
 			

@@ -2,7 +2,7 @@ extends KinematicBody2D
 
 signal player_update
 
-var MAX_SPEED = 500
+var MAX_SPEED = 100
 var ACCELERATION = 2000
 var motion = Vector2.ZERO
 var de = 0

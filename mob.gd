@@ -1,6 +1,6 @@
 extends KinematicBody2D
 
-var MAX_SPEED = 500
+var MAX_SPEED = 50
 var ACCELERATION = 2000
 var motion = Vector2.ZERO
 var speed = 500.0
@@ -21,10 +21,11 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	var move_distance = speed * delta
-	_move_along_path(move_distance, delta)
-	#position=position+Vector2(5,0)
-	motion = move_and_slide(motion)
+	if (active):
+		var move_distance = speed * delta
+		_move_along_path(move_distance, delta)
+		#position=position+Vector2(5,0)
+		motion = move_and_slide(motion)
 
 func _move_along_path(distance, delta):
 	var starting_point = position
@@ -38,7 +39,7 @@ func _move_along_path(distance, delta):
 				apply_friction(ACCELERATION * delta)
 			else:
 				apply_movement(axis * ACCELERATION * delta)
-			return
+			#return
 			"""
 		elif distance < 0:
 			axis = path[0]
@@ -51,6 +52,7 @@ func _move_along_path(distance, delta):
 			set_process(false)
 			break
 			"""
+		axis = Vector2.ZERO
 		distance -= distance_to_next
 		starting_point = path[0]
 		path.remove(0)
@@ -72,6 +74,10 @@ func update_path(new_goal):
 	if path.size() == 0:
 		return
 	set_process(true)
+	active = true
+
+func stop_following():
+	active = false
 
 func apply_friction(amount):
 	if motion.length() > amount:
