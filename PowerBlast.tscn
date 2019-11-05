@@ -1,10 +1,18 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://PowerBlast.gd" type="Script" id=1]
 [ext_resource path="res://poder.png" type="Texture" id=2]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 6.47302, 5.1745 )
+
+[sub_resource type="ParticlesMaterial" id=2]
+emission_shape = 2
+emission_box_extents = Vector3( 3, 1, 1 )
+flag_disable_z = true
+gravity = Vector3( 0, 98, 0 )
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
 
 [node name="PowerBlast" type="Area2D"]
 script = ExtResource( 1 )
@@ -15,3 +23,11 @@ texture = ExtResource( 2 )
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( -0.867386, 0.289131 )
 shape = SubResource( 1 )
+
+[node name="Particles2D" type="Particles2D" parent="."]
+rotation = 1.56804
+amount = 5
+lifetime = 0.8
+preprocess = 0.5
+speed_scale = 0.7
+process_material = SubResource( 2 )
