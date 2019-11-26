@@ -1,11 +1,16 @@
 extends KinematicBody2D
 
+class_name Player
+
 signal player_update
+signal player_lose_life
+signal player_die
 
 var MAX_SPEED = 100
 var ACCELERATION = 2000
 var motion = Vector2.ZERO
 var de = 0
+var vida = 5
 
 var blast = preload("res://PowerBlast.tscn")
 
@@ -55,6 +60,15 @@ func apply_movement(acceleration):
 	motion += acceleration
 	motion = motion.clamped(MAX_SPEED)
 
-func add_connection(e):
-	connect("player_update", e, "_on_player_update")
-	
+func add_connection(s, e, f):
+	connect(s, e, f)
+
+
+func lose_life():
+	if vida > 0:
+		vida -= 1
+		emit_signal("player_lose_life", self.vida)
+	else:
+		set_process_input(false)
+		set_physics_process(false)
+		emit_signal("player_die")

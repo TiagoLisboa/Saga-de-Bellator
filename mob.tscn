@@ -1,10 +1,14 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://mob.gd" type="Script" id=1]
 [ext_resource path="res://anao-man1.png" type="Texture" id=2]
+[ext_resource path="res://MobArea.gd" type="Script" id=3]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 10.7092, 10 )
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 13.8332, 12.923 )
 
 [node name="mob" type="KinematicBody2D"]
 script = ExtResource( 1 )
@@ -15,3 +19,10 @@ texture = ExtResource( 2 )
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( -1.42028, -1.01448 )
 shape = SubResource( 1 )
+
+[node name="MobArea" type="Area2D" parent="."]
+script = ExtResource( 3 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MobArea"]
+position = Vector2( -1.24552, -0.996418 )
+shape = SubResource( 2 )

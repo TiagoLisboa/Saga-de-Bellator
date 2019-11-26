@@ -13,6 +13,7 @@ var Player = preload("res://Player.tscn")
 var blast = preload("res://PowerBlast.tscn")
 
 var player = null
+var dead = false
 var start_room = null
 var end_room = null
 
@@ -28,6 +29,10 @@ onready var Map = $Navigation2D/TileMap
 
 
 var path # AStar pathfinding obj
+
+func _on_player_die():
+	dead = true
+	
 func _ready():
 	randomize()
 	yield(make_rooms(), 'completed')
@@ -40,7 +45,10 @@ func _ready():
 	add_child(player)
 	player.position = start_room.position
 	for r in $Rooms.get_children():
-		player.add_connection(r)
+		player.add_connection("player_update", r, "_on_player_update")
+	player.add_connection("player_lose_life", $CanvasLayer/HUD, "_on_player_lose_life")
+	player.add_connection("player_die", $CanvasLayer/HUD, "_on_player_die")
+	player.add_connection("player_die", self, "_on_player_die")
 	
 func make_rooms():
 	for i in range(num_rooms):
@@ -78,7 +86,8 @@ func _draw():
 						Color(1, 1, 0), 15, true)
 	
 func _process(delta):
-	update()
+	if not dead:
+		update()
 	
 func _input(event):
 	"""
