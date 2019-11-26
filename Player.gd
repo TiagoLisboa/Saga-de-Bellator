@@ -6,6 +6,7 @@ signal player_update
 signal player_lose_life
 signal player_update_energia
 signal player_die
+signal player_win
 
 var MAX_SPEED = 100
 var ACCELERATION = 2000
@@ -17,8 +18,8 @@ var energia = 1000
 var blast = preload("res://PowerBlast.tscn")
 
 func _process(delta):
-	if Input.is_action_pressed("shift"):
-		energia -= 150*delta
+	if Input.is_action_pressed("shift") and energia - 250*delta > 0:
+		energia -= 250*delta
 		MAX_SPEED = 200
 	else:
 		MAX_SPEED = 100
@@ -89,3 +90,8 @@ func lose_life():
 		set_process_input(false)
 		set_physics_process(false)
 		emit_signal("player_die")
+
+func win():
+	set_process_input(false)
+	set_physics_process(false)
+	emit_signal("player_win")

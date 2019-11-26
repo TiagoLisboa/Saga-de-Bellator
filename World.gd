@@ -11,6 +11,7 @@ var cull = .5
 
 var Player = preload("res://Player.tscn")
 var blast = preload("res://PowerBlast.tscn")
+onready var finish = $finish_obj
 
 var player = null
 var dead = false
@@ -43,11 +44,14 @@ func _ready():
 		r.get_node("CollisionShape2D").disabled = true
 	player = Player.instance()
 	add_child(player)
+	add_child(finish)
 	player.position = start_room.position
+	finish.position = end_room.position
 	for r in $Rooms.get_children():
 		player.add_connection("player_update", r, "_on_player_update")
 	player.add_connection("player_lose_life", $CanvasLayer/HUD, "_on_player_lose_life")
 	player.add_connection("player_die", $CanvasLayer/HUD, "_on_player_die")
+	player.add_connection("player_win", $CanvasLayer/HUD, "_on_player_win")
 	player.add_connection("player_update_energia", $CanvasLayer/HUD, "_on_player_update_energia")
 	player.add_connection("player_die", self, "_on_player_die")
 	

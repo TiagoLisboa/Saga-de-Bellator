@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://HUD.gd" type="Script" id=1]
 [ext_resource path="res://vida1.png" type="Texture" id=2]
 [ext_resource path="res://progress-bar1.png" type="Texture" id=3]
 [ext_resource path="res://progress-bar2.png" type="Texture" id=4]
 [ext_resource path="res://you-died.png" type="Texture" id=5]
+[ext_resource path="res://you-win.png" type="Texture" id=6]
 
 [node name="HUD" type="MarginContainer"]
 anchor_right = 1.0
@@ -65,14 +66,24 @@ value = 1000.0
 texture_under = ExtResource( 3 )
 texture_progress = ExtResource( 4 )
 
-[node name="ColorRect" type="ColorRect" parent="."]
-visible = false
+[node name="Lose" type="ColorRect" parent="."]
 margin_right = 1024.0
 margin_bottom = 600.0
 color = Color( 0, 0, 0, 0.529412 )
 
-[node name="you-died" type="Sprite" parent="ColorRect"]
+[node name="you-died" type="Sprite" parent="Lose"]
 position = Vector2( 800, 360 )
 scale = Vector2( 5, 5 )
 texture = ExtResource( 5 )
+offset = Vector2( -56.3, -16 )
+
+[node name="Win" type="ColorRect" parent="."]
+margin_right = 1024.0
+margin_bottom = 600.0
+color = Color( 0, 0, 0, 0.529412 )
+
+[node name="you-win" type="Sprite" parent="Win"]
+position = Vector2( 800, 360 )
+scale = Vector2( 5, 5 )
+texture = ExtResource( 6 )
 offset = Vector2( -56.3, -16 )

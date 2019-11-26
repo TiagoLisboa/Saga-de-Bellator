@@ -1,8 +1,12 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://World.gd" type="Script" id=1]
 [ext_resource path="res://simple-tileset.tres" type="TileSet" id=2]
 [ext_resource path="res://HUD.tscn" type="PackedScene" id=3]
+[ext_resource path="res://mana1.png" type="Texture" id=4]
+[ext_resource path="res://finish_area.gd" type="Script" id=5]
+
+[sub_resource type="ConvexPolygonShape2D" id=1]
 
 [node name="World" type="Node2D"]
 script = ExtResource( 1 )
@@ -26,3 +30,20 @@ tile_data = PoolIntArray( 65544, 0, 0, 1048600, 0, 0, 1048601, 0, 0, 1048602, 0,
 
 [node name="HUD" parent="CanvasLayer" instance=ExtResource( 3 )]
 rect_pivot_offset = Vector2( 10, 10 )
+
+[node name="finish_obj" type="Sprite" parent="."]
+position = Vector2( -20, 250 )
+texture = ExtResource( 4 )
+
+[node name="finish_area" type="Area2D" parent="finish_obj"]
+script = ExtResource( 5 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="finish_obj/finish_area"]
+position = Vector2( 0.378044, -4.53658 )
+scale = Vector2( 0.796136, 0.938634 )
+shape = SubResource( 1 )
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="finish_obj/finish_area"]
+position = Vector2( 0.504059, 4.53662 )
+scale = Vector2( 0.796136, -0.981361 )
+shape = SubResource( 1 )
