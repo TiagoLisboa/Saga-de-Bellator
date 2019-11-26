@@ -48,6 +48,7 @@ func _ready():
 		player.add_connection("player_update", r, "_on_player_update")
 	player.add_connection("player_lose_life", $CanvasLayer/HUD, "_on_player_lose_life")
 	player.add_connection("player_die", $CanvasLayer/HUD, "_on_player_die")
+	player.add_connection("player_update_energia", $CanvasLayer/HUD, "_on_player_update_energia")
 	player.add_connection("player_die", self, "_on_player_die")
 	
 func make_rooms():

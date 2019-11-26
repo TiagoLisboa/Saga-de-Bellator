@@ -4,6 +4,7 @@ class_name Player
 
 signal player_update
 signal player_lose_life
+signal player_update_energia
 signal player_die
 
 var MAX_SPEED = 100
@@ -11,9 +12,22 @@ var ACCELERATION = 2000
 var motion = Vector2.ZERO
 var de = 0
 var vida = 5
+var energia = 1000
 
 var blast = preload("res://PowerBlast.tscn")
 
+func _process(delta):
+	if Input.is_action_pressed("shift"):
+		energia -= 150*delta
+		MAX_SPEED = 200
+	else:
+		MAX_SPEED = 100
+	energia += 100*delta
+	if energia > 1000:
+		energia = 1000
+	else:
+		emit_signal("player_update_energia", energia)
+	
 func _physics_process(delta):
 	de += delta
 	if de > .3:
@@ -45,10 +59,13 @@ func _input(event):
 		lancar_poder()
 
 func lancar_poder():
-	var new_blast = blast.instance()
-	new_blast.initialize((get_global_mouse_position() - global_position).normalized())
-	new_blast.position = position
-	add_child(new_blast)
+	if energia - 300 > 0:
+		var new_blast = blast.instance()
+		new_blast.initialize((get_global_mouse_position() - global_position).normalized())
+		new_blast.position = position
+		energia -= 300
+		emit_signal("player_update_energia", energia)
+		add_child(new_blast)
 
 func apply_friction(amount):
 	if motion.length() > amount:

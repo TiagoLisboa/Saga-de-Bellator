@@ -1,8 +1,10 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://HUD.gd" type="Script" id=1]
 [ext_resource path="res://vida1.png" type="Texture" id=2]
-[ext_resource path="res://you-died.png" type="Texture" id=3]
+[ext_resource path="res://progress-bar1.png" type="Texture" id=3]
+[ext_resource path="res://progress-bar2.png" type="Texture" id=4]
+[ext_resource path="res://you-died.png" type="Texture" id=5]
 
 [node name="HUD" type="MarginContainer"]
 anchor_right = 1.0
@@ -14,6 +16,7 @@ margin_right = 1024.0
 margin_bottom = 600.0
 
 [node name="Vida" type="VBoxContainer" parent="HBoxContainer"]
+editor/display_folded = true
 margin_bottom = 600.0
 
 [node name="Count" type="MarginContainer" parent="HBoxContainer/Vida"]
@@ -43,12 +46,27 @@ position = Vector2( 160, 0 )
 texture = ExtResource( 2 )
 offset = Vector2( 16, 16 )
 
-[node name="Energia" type="HBoxContainer" parent="HBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer"]
 margin_left = 4.0
-margin_right = 4.0
+margin_right = 700.0
+margin_bottom = 600.0
+size_flags_horizontal = 3
+
+[node name="Energia" type="HBoxContainer" parent="HBoxContainer"]
+margin_left = 704.0
+margin_right = 1024.0
 margin_bottom = 600.0
 
+[node name="TextureProgress" type="TextureProgress" parent="HBoxContainer/Energia"]
+margin_right = 320.0
+margin_bottom = 600.0
+max_value = 1000.0
+value = 1000.0
+texture_under = ExtResource( 3 )
+texture_progress = ExtResource( 4 )
+
 [node name="ColorRect" type="ColorRect" parent="."]
+visible = false
 margin_right = 1024.0
 margin_bottom = 600.0
 color = Color( 0, 0, 0, 0.529412 )
@@ -56,5 +74,5 @@ color = Color( 0, 0, 0, 0.529412 )
 [node name="you-died" type="Sprite" parent="ColorRect"]
 position = Vector2( 800, 360 )
 scale = Vector2( 5, 5 )
-texture = ExtResource( 3 )
+texture = ExtResource( 5 )
 offset = Vector2( -56.3, -16 )

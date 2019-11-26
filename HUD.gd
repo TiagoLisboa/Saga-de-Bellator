@@ -21,3 +21,6 @@ func _on_player_lose_life(vida):
 
 func _on_player_die():
 	self.add_child(color)
+
+func _on_player_update_energia(energia):
+	$HBoxContainer/Energia/TextureProgress.value = energia
