@@ -20,6 +20,7 @@ func make_room(_pos, _size):
 	$CollisionShape2D.shape = s
 	
 func _on_player_update(pos):
+	return
 	var start = position - size + Vector2(32,32)
 	var end = position + size - Vector2(32,32)
 	if (pos >= start and pos <= end):

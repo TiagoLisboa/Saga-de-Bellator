@@ -12,7 +12,8 @@ var nav = null
 var path = PoolVector2Array()
 var goal = Vector2()
 
-var active = false
+var active = null
+var refresh = false
 # Declare member variables here. Examples:
 # var a = 2
 # var b = "text"
@@ -23,11 +24,19 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	if (active):
-		var move_distance = speed * delta
-		_move_along_path(move_distance, delta)
-		#position=position+Vector2(5,0)
-		motion = move_and_slide(motion)
+	if not active == null:
+		if $MobArea.overlaps_body(active):
+			$AnimatedSprite.play("attack")
+			yield($AnimatedSprite, 'animation_finished')
+		else:
+			$AnimatedSprite.play("move")
+			var move_distance = speed * delta
+			_move_along_path(move_distance, delta)
+			#position=position+Vector2(5,0)
+			motion = move_and_slide(motion)
+			update_path(active.position)
+	else:
+		$AnimatedSprite.play("idle")
 
 func _move_along_path(distance, delta):
 	var starting_point = position
@@ -41,6 +50,10 @@ func _move_along_path(distance, delta):
 				apply_friction(ACCELERATION * delta)
 			else:
 				apply_movement(axis * ACCELERATION * delta)
+			if axis.x < 0:
+				$AnimatedSprite.flip_h = true
+			if axis.x > 0:
+				$AnimatedSprite.flip_h = false
 			#return
 			"""
 		elif distance < 0:
@@ -76,10 +89,13 @@ func update_path(new_goal):
 	if path.size() == 0:
 		return
 	set_process(true)
-	active = true
+
+func start_following(body):
+	active = body
+	update_path(active.position)
 
 func stop_following():
-	active = false
+	active = null
 
 func apply_friction(amount):
 	if motion.length() > amount:
@@ -91,6 +107,16 @@ func apply_movement(acceleration):
 	motion += acceleration
 	motion = motion.clamped(MAX_SPEED)
 
+
 func destroy():
-	print("des")
 	queue_free()
+
+func _on_view(body):
+	start_following(body)
+
+func _off_view(body):
+	stop_following()
+
+func _on_AnimatedSprite_animation_finished():
+	if $MobArea.overlaps_body(active):
+		active.lose_life()
