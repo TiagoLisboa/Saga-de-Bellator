@@ -27,7 +27,7 @@ _global_script_class_icons={
 [application]
 
 config/name="Saga de Bellator"
-run/main_scene="res://World.tscn"
+run/main_scene="res://HomeScreen.tscn"
 config/icon="res://icon.png"
 
 [importer_defaults]

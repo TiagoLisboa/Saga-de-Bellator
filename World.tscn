@@ -1,10 +1,22 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://World.gd" type="Script" id=1]
 [ext_resource path="res://simple-tileset.tres" type="TileSet" id=2]
-[ext_resource path="res://HUD.tscn" type="PackedScene" id=3]
-[ext_resource path="res://mana1.png" type="Texture" id=4]
-[ext_resource path="res://finish_area.gd" type="Script" id=5]
+[ext_resource path="res://Sprites/ManaSpin/mana-spin1.png" type="Texture" id=3]
+[ext_resource path="res://Sprites/ManaSpin/mana-spin2.png" type="Texture" id=4]
+[ext_resource path="res://Sprites/ManaSpin/mana-spin3.png" type="Texture" id=5]
+[ext_resource path="res://Sprites/ManaSpin/mana-spin4.png" type="Texture" id=6]
+[ext_resource path="res://HUD.tscn" type="PackedScene" id=7]
+[ext_resource path="res://mana1.png" type="Texture" id=8]
+[ext_resource path="res://finish_area.gd" type="Script" id=9]
+
+[sub_resource type="SpriteFrames" id=2]
+animations = [ {
+"frames": [ ExtResource( 3 ), ExtResource( 4 ), ExtResource( 5 ), ExtResource( 6 ) ],
+"loop": true,
+"name": "default",
+"speed": 20.0
+} ]
 
 [sub_resource type="ConvexPolygonShape2D" id=1]
 
@@ -28,15 +40,27 @@ tile_data = PoolIntArray( 65544, 0, 0, 1048600, 0, 0, 1048601, 0, 0, 1048602, 0,
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
-[node name="HUD" parent="CanvasLayer" instance=ExtResource( 3 )]
+[node name="SplashScreen" type="ColorRect" parent="CanvasLayer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0, 0, 0, 1 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="CanvasLayer/SplashScreen"]
+position = Vector2( 501.775, 292.964 )
+scale = Vector2( 10, 10 )
+frames = SubResource( 2 )
+frame = 3
+playing = true
+
+[node name="HUD" parent="CanvasLayer" instance=ExtResource( 7 )]
 rect_pivot_offset = Vector2( 10, 10 )
 
 [node name="finish_obj" type="Sprite" parent="."]
 position = Vector2( -20, 250 )
-texture = ExtResource( 4 )
+texture = ExtResource( 8 )
 
 [node name="finish_area" type="Area2D" parent="finish_obj"]
-script = ExtResource( 5 )
+script = ExtResource( 9 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="finish_obj/finish_area"]
 position = Vector2( 0.378044, -4.53658 )

@@ -35,10 +35,13 @@ func _on_player_die():
 	dead = true
 	
 func _ready():
+	$CanvasLayer/HUD.visible = false
 	randomize()
 	yield(make_rooms(), 'completed')
 	make_map()
 	place_things()
+	$CanvasLayer/HUD.visible = true
+	$CanvasLayer/SplashScreen.visible = false
 	
 	for r in $Rooms.get_children():
 		r.disable_shape()
@@ -77,18 +80,6 @@ func make_rooms():
 	yield(get_tree(), 'idle_frame')
 	# generate mst
 	path = find_mst(room_positions)
-		
-func _draw():
-	for room in $Rooms.get_children():
-		draw_rect(Rect2(room.position - room.size, room.size * 2),
-				Color(32, 228, 0), false)
-	if path:
-		for p in path.get_points():
-			for c in path.get_point_connections(p):
-				var pp = path.get_point_position(p)
-				var cp = path.get_point_position(c)
-				draw_line(Vector2(pp.x, pp.y), Vector2(cp.x, cp.y),
-						Color(1, 1, 0), 15, true)
 	
 func _process(delta):
 	if not dead:
