@@ -34,7 +34,6 @@ texture = ExtResource( 3 )
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="door/StaticBody2D"]
 polygon = PoolVector2Array( -16, -16, 16, -16, 16, 16, -16, 16 )
-disabled = true
 
 [node name="ground-simple" type="Sprite" parent="."]
 position = Vector2( 96, 0 )

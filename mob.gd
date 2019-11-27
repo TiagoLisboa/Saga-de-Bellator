@@ -109,6 +109,8 @@ func apply_movement(acceleration):
 
 
 func destroy():
+	if len(get_parent().get_children()) == 1:
+		get_parent().get_parent().open_doors()
 	queue_free()
 
 func _on_view(body):

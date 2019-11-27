@@ -41,7 +41,7 @@ func _ready():
 	place_things()
 	
 	for r in $Rooms.get_children():
-		r.get_node("CollisionShape2D").disabled = true
+		r.disable_shape()
 	player = Player.instance()
 	add_child(player)
 	add_child(finish)
@@ -129,8 +129,15 @@ func place_mobs(room):
 		var y = rand_range(p.y + 3*tile_size, s.y*2 + p.y - tile_size*2)
 		m.make_mob(Vector2(x, y), nav)
 		room.add_mob(m)
-	
-	
+
+func activate_doors(doors):
+	for door in doors:
+		Map.set_cell(door.x, door.y, 2)
+
+func deactivate_doors(doors):
+	for door in doors:
+		Map.set_cell(door.x, door.y, 3)
+			
 func place_doors(room):
 	var pos = Map.world_to_map(room.position)
 	var xs = [pos.x]
