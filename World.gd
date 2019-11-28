@@ -41,8 +41,7 @@ func _ready():
 	make_map()
 	place_things()
 	$CanvasLayer/HUD.visible = true
-	$CanvasLayer/SplashScreen.visible = false
-	
+	$CanvasLayer.remove_child($CanvasLayer/SplashScreen)
 	for r in $Rooms.get_children():
 		r.disable_shape()
 	player = Player.instance()
@@ -57,6 +56,11 @@ func _ready():
 	player.add_connection("player_win", $CanvasLayer/HUD, "_on_player_win")
 	player.add_connection("player_update_energia", $CanvasLayer/HUD, "_on_player_update_energia")
 	player.add_connection("player_die", self, "_on_player_die")
+	
+	yield(get_tree().create_timer(.5), 'timeout')
+	
+	get_tree().paused = true
+	
 	
 func make_rooms():
 	for i in range(num_rooms):

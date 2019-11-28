@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://World.gd" type="Script" id=1]
 [ext_resource path="res://simple-tileset.tres" type="TileSet" id=2]
@@ -7,10 +7,11 @@
 [ext_resource path="res://Sprites/ManaSpin/mana-spin3.png" type="Texture" id=5]
 [ext_resource path="res://Sprites/ManaSpin/mana-spin4.png" type="Texture" id=6]
 [ext_resource path="res://HUD.tscn" type="PackedScene" id=7]
-[ext_resource path="res://mana1.png" type="Texture" id=8]
-[ext_resource path="res://finish_area.gd" type="Script" id=9]
+[ext_resource path="res://continuar.gd" type="Script" id=8]
+[ext_resource path="res://mana1.png" type="Texture" id=9]
+[ext_resource path="res://finish_area.gd" type="Script" id=10]
 
-[sub_resource type="SpriteFrames" id=2]
+[sub_resource type="SpriteFrames" id=1]
 animations = [ {
 "frames": [ ExtResource( 3 ), ExtResource( 4 ), ExtResource( 5 ), ExtResource( 6 ) ],
 "loop": true,
@@ -18,7 +19,7 @@ animations = [ {
 "speed": 20.0
 } ]
 
-[sub_resource type="ConvexPolygonShape2D" id=1]
+[sub_resource type="ConvexPolygonShape2D" id=2]
 
 [node name="World" type="Node2D"]
 script = ExtResource( 1 )
@@ -39,6 +40,7 @@ format = 1
 tile_data = PoolIntArray( 65544, 0, 0, 1048600, 0, 0, 1048601, 0, 0, 1048602, 0, 0, 1048603, 0, 0, 1048604, 0, 0, 1048605, 0, 0, 1048606, 0, 0, 1114136, 1, 0, 1114137, 1, 0, 1114138, 1, 0, 1114139, 1, 0, 1114140, 1, 0, 1114141, 1, 0, 1114142, 1, 0, 1179674, 1, 0, 1179678, 1, 0, 1179679, 1, 0, 1179680, 1, 0, 1245210, 1, 0, 1245212, 1, 0, 1245213, 1, 0, 1245214, 1, 0, 1245215, 1, 0, 1245216, 1, 0, 1310748, 1, 0, 1310751, 1, 0 )
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
+pause_mode = 2
 
 [node name="SplashScreen" type="ColorRect" parent="CanvasLayer"]
 anchor_right = 1.0
@@ -48,26 +50,63 @@ color = Color( 0, 0, 0, 1 )
 [node name="AnimatedSprite" type="AnimatedSprite" parent="CanvasLayer/SplashScreen"]
 position = Vector2( 501.775, 292.964 )
 scale = Vector2( 10, 10 )
-frames = SubResource( 2 )
-frame = 3
+frames = SubResource( 1 )
+frame = 1
 playing = true
 
 [node name="HUD" parent="CanvasLayer" instance=ExtResource( 7 )]
 rect_pivot_offset = Vector2( 10, 10 )
 
+[node name="Dialog" type="Node2D" parent="CanvasLayer/HUD"]
+pause_mode = 2
+position = Vector2( 267.134, 398.572 )
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer/HUD/Dialog"]
+margin_left = -10.8911
+margin_top = -14.0027
+margin_right = 29.1089
+margin_bottom = 25.9973
+rect_scale = Vector2( 13.7733, 3.79913 )
+color = Color( 0, 0, 0, 0.584314 )
+
+[node name="Name" type="Label" parent="CanvasLayer/HUD/Dialog"]
+margin_right = 40.0
+margin_bottom = 14.0
+text = "Bellator"
+
+[node name="Text" type="Label" parent="CanvasLayer/HUD/Dialog"]
+margin_left = -0.697998
+margin_top = 25.9572
+margin_right = 103.302
+margin_bottom = 56.9572
+text = "O prefeito pediu que eu descobrisse o que esta causando a insanidade nos anões.
+
+Eu devo ir até o fundo dessa história.
+"
+
+[node name="continuar" type="Button" parent="CanvasLayer/HUD/Dialog"]
+pause_mode = 2
+margin_left = 452.317
+margin_top = 99.1171
+margin_right = 524.317
+margin_bottom = 119.117
+text = "continuar"
+script = ExtResource( 8 )
+
 [node name="finish_obj" type="Sprite" parent="."]
 position = Vector2( -20, 250 )
-texture = ExtResource( 8 )
+texture = ExtResource( 9 )
 
 [node name="finish_area" type="Area2D" parent="finish_obj"]
-script = ExtResource( 9 )
+script = ExtResource( 10 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="finish_obj/finish_area"]
 position = Vector2( 0.378044, -4.53658 )
 scale = Vector2( 0.796136, 0.938634 )
-shape = SubResource( 1 )
+shape = SubResource( 2 )
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="finish_obj/finish_area"]
 position = Vector2( 0.504059, 4.53662 )
 scale = Vector2( 0.796136, -0.981361 )
-shape = SubResource( 1 )
+shape = SubResource( 2 )
+[connection signal="pressed" from="CanvasLayer/HUD/Dialog/continuar" to="CanvasLayer/HUD/Dialog/continuar" method="_on_continuar_pressed"]

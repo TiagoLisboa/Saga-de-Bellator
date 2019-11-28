@@ -120,5 +120,5 @@ func _off_view(body):
 	stop_following()
 
 func _on_AnimatedSprite_animation_finished():
-	if $MobArea.overlaps_body(active):
+	if $AnimatedSprite.animation == "attack" and $MobArea.overlaps_body(active):
 		active.lose_life()
