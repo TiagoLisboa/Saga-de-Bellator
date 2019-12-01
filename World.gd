@@ -3,7 +3,7 @@ extends Node2D
 var Room = preload("res://Room.tscn")
 
 var tile_size = 32
-var num_rooms = 50
+var num_rooms = 25
 var min_size = 5
 var max_size = 10
 var hspread = 400

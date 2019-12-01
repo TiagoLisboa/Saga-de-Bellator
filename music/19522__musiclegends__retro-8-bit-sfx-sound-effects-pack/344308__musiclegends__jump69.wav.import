@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/344308__musiclegends__jump69.wav-20e83aaa64c72ac6fa48ac72dbc4d53c.sample"
+
+[deps]
+
+source_file="res://music/19522__musiclegends__retro-8-bit-sfx-sound-effects-pack/344308__musiclegends__jump69.wav"
+dest_files=[ "res://.import/344308__musiclegends__jump69.wav-20e83aaa64c72ac6fa48ac72dbc4d53c.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=true
+edit/loop=false
+compress/mode=0

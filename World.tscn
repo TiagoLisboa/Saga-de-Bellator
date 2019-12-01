@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://World.gd" type="Script" id=1]
 [ext_resource path="res://simple-tileset.tres" type="TileSet" id=2]
@@ -8,8 +8,9 @@
 [ext_resource path="res://Sprites/ManaSpin/mana-spin4.png" type="Texture" id=6]
 [ext_resource path="res://HUD.tscn" type="PackedScene" id=7]
 [ext_resource path="res://continuar.gd" type="Script" id=8]
-[ext_resource path="res://mana1.png" type="Texture" id=9]
-[ext_resource path="res://finish_area.gd" type="Script" id=10]
+[ext_resource path="res://music/Diablo II - Tristram Theme (Blizzards Original Version).wav" type="AudioStream" id=9]
+[ext_resource path="res://mana1.png" type="Texture" id=10]
+[ext_resource path="res://finish_area.gd" type="Script" id=11]
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
@@ -32,6 +33,7 @@ current = true
 zoom = Vector2( 10, 10 )
 
 [node name="Navigation2D" type="Navigation2D" parent="."]
+show_behind_parent = true
 
 [node name="TileMap" type="TileMap" parent="Navigation2D"]
 tile_set = ExtResource( 2 )
@@ -51,10 +53,10 @@ color = Color( 0, 0, 0, 1 )
 position = Vector2( 501.775, 292.964 )
 scale = Vector2( 10, 10 )
 frames = SubResource( 1 )
-frame = 1
 playing = true
 
 [node name="HUD" parent="CanvasLayer" instance=ExtResource( 7 )]
+pause_mode = 2
 rect_pivot_offset = Vector2( 10, 10 )
 
 [node name="Dialog" type="Node2D" parent="CanvasLayer/HUD"]
@@ -93,12 +95,17 @@ margin_bottom = 119.117
 text = "continuar"
 script = ExtResource( 8 )
 
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="CanvasLayer/HUD"]
+stream = ExtResource( 9 )
+volume_db = -13.0
+autoplay = true
+
 [node name="finish_obj" type="Sprite" parent="."]
 position = Vector2( -20, 250 )
-texture = ExtResource( 9 )
+texture = ExtResource( 10 )
 
 [node name="finish_area" type="Area2D" parent="finish_obj"]
-script = ExtResource( 10 )
+script = ExtResource( 11 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="finish_obj/finish_area"]
 position = Vector2( 0.378044, -4.53658 )

@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/344299__musiclegends__blip-select11.wav-e19e4772b8a68eefd3c453f9692e1a51.sample"
+
+[deps]
+
+source_file="res://music/19522__musiclegends__retro-8-bit-sfx-sound-effects-pack/344299__musiclegends__blip-select11.wav"
+dest_files=[ "res://.import/344299__musiclegends__blip-select11.wav-e19e4772b8a68eefd3c453f9692e1a51.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=true
+edit/loop=false
+compress/mode=0

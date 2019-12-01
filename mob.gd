@@ -29,11 +29,14 @@ func _process(delta):
 			$AnimatedSprite.play("attack")
 			yield($AnimatedSprite, 'animation_finished')
 		else:
-			$AnimatedSprite.play("move")
-			var move_distance = speed * delta
-			_move_along_path(move_distance, delta)
-			#position=position+Vector2(5,0)
-			motion = move_and_slide(motion)
+			if path.size() > 0:
+				$AnimatedSprite.play("move")
+				var move_distance = speed * delta
+				_move_along_path(move_distance, delta)
+				#position=position+Vector2(5,0)
+				motion = move_and_slide(motion)
+			else:
+				$AnimatedSprite.play("idle")
 			update_path(active.position)
 	else:
 		$AnimatedSprite.play("idle")
@@ -86,16 +89,15 @@ func make_mob(_pos, new_nav):
 func update_path(new_goal):
 	goal = new_goal
 	path = nav.get_simple_path(position, goal)
-	if path.size() == 0:
-		return
-	set_process(true)
 
 func start_following(body):
 	active = body
 	update_path(active.position)
+	set_process(true)
 
 func stop_following():
 	active = null
+	set_process(false)
 
 func apply_friction(amount):
 	if motion.length() > amount:

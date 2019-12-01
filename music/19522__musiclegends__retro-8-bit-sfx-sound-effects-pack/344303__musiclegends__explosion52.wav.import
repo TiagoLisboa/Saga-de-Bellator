@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/344303__musiclegends__explosion52.wav-9c8660eb87fb56258e671fd58603fc1e.sample"
+
+[deps]
+
+source_file="res://music/19522__musiclegends__retro-8-bit-sfx-sound-effects-pack/344303__musiclegends__explosion52.wav"
+dest_files=[ "res://.import/344303__musiclegends__explosion52.wav-9c8660eb87fb56258e671fd58603fc1e.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=true
+edit/loop=false
+compress/mode=0

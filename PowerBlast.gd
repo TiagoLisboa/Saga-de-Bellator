@@ -15,6 +15,11 @@ func _ready():
 	connect("body_entered", self, "_on_body_entered")
 	set_as_toplevel(true)
 
+	var audio_player = AudioStreamPlayer2D.new()
+	self.add_child(audio_player)
+	audio_player.stream = load("res://music/19522__musiclegends__retro-8-bit-sfx-sound-effects-pack/344303__musiclegends__explosion52.wav")
+	audio_player.play()
+
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	position += direction * move_speed * delta

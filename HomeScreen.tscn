@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://new-game.png" type="Texture" id=1]
 [ext_resource path="res://Button.gd" type="Script" id=2]
+[ext_resource path="res://music/Diablo II - Tristram Theme (Blizzards Original Version).wav" type="AudioStream" id=3]
 
 [node name="HomeScreen" type="Control"]
 anchor_right = 1.0
@@ -29,3 +30,8 @@ margin_bottom = 38.0
 icon = ExtResource( 1 )
 flat = true
 script = ExtResource( 2 )
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 3 )
+volume_db = -13.0
+autoplay = true
